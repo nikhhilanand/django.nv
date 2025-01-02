@@ -1,4 +1,4 @@
-cat >.circleci/config.yml<<EOF
+
 jobs:
   build:
     docker:
@@ -47,4 +47,3 @@ workflows:
           type: approval
           requires:
             - integration
-EOF

@@ -17,6 +17,25 @@ jobs:
           pip install -r requirements.txt
           python manage.py test taskManager
 
+  oast-snyk:
+    docker:
+      - image: node:alpine3.10
+    steps:
+      - checkout
+
+      - run: 
+          command: |
+            wget -O snyk https://github.com/snyk/cli/releases/download/v1.1156.0/snyk-alpine
+            chmod +x snyk
+            mv snyk /usr/local/bin/
+            npm install
+            snyk auth $SNYK_TOKEN
+            snyk test --json > snyk-results.json ||true
+
+      - store_artifacts:
+          path: snyk-results.json
+          destination: snyk-artifact
+  
   integration:
     docker:
       - image: python:3.6
@@ -39,6 +58,16 @@ workflows:
   django:
     jobs:
       - build
-      - test
-      - integration
-      - prod
+      - test:
+          requires:
+            - build
+      - oast-snyk:
+          requries:
+            - test
+      - integration:
+          requires:
+            - oast-snyk
+      - prod:
+          type: approval
+          requires:
+            - integration

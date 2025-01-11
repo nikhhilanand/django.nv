@@ -22,6 +22,7 @@ jobs:
       - image: node:alpine3.10
     steps:
       - checkout
+
       - run: 
           command: |
             wget -O snyk https://github.com/snyk/cli/releases/download/v1.1156.0/snyk-alpine
@@ -29,11 +30,13 @@ jobs:
             mv snyk /usr/local/bin/
             npm install
             snyk auth $SNYK_TOKEN
-            snyk test --json > snyk-results.json ||true
+            snyk test --json > snyk-results.json || true
+
       - store_artifacts:
           path: snyk-results.json
           destination: snyk-artifact
-  
+          when: always
+
   integration:
     docker:
       - image: python:3.6
@@ -43,13 +46,14 @@ jobs:
           command: |
             echo "This is an integration step"
             exit 1
+          when: on_fail         # Even if the job fails, continue to the next stages
 
   prod:
     docker:
       - image: python:3.6
     steps:
       - checkout
-      - run: echo "This is a deploy step"
+      - run: echo "This is a deploy step."
 
 workflows:
   version: 2
@@ -60,7 +64,7 @@ workflows:
           requires:
             - build
       - oast-snyk:
-          requries:
+          requires:
             - test
       - integration:
           requires:

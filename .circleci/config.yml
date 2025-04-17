@@ -3,7 +3,7 @@ jobs:
         machine: true
         steps:
             - checkout
-            - run: docker run --rm -v $(pwd):/src -w /src hysnsec/dependency-check --scan /src --format json --out odc-output  || true
+            - run: docker run --rm -v $(pwd):/src -w /src hysnsec/dependency-check --scan /src -f JSON --out odc-output  || true
             - store_artifacts:
                 path: odc-output/*
                 destination: odc-artifact

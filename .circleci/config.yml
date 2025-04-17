@@ -22,13 +22,10 @@ jobs:
       - image: node:23.11
     steps:
       - checkout
-      - run:
-          command:  |
+      - run:  |
             npm install
             npm install retire
             retire --severity critical --outputformat json --outputpath retire_output.json
-          when: on_fail      # Even if the job fails, continue to the next jobs
-
   integration:
     docker:
       - image: python:3.6

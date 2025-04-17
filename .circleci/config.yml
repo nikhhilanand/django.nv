@@ -22,7 +22,8 @@ jobs:
       - image: node:23.11
     steps:
       - checkout
-      - run: |
+      - run:
+          command:  |
             npm install
             npm install retire
             retire --severity critical --outputformat json --outputpath retire_output.json

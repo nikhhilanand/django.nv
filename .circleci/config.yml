@@ -13,7 +13,7 @@ jobs:
               when: always #Whatever the outcome of stage is save the artifact   
 
 workflows:
-  version: 2
+  version: 2.1
   django:
     jobs:
       - oast

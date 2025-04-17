@@ -1,20 +1,19 @@
 jobs:
-  oast:
+oast:
     docker:
       - image: node:23.11
     steps:
       - checkout
-      - run:  |
-            npm install
-            npm install retire
-            retire --severity critical --outputformat json --outputpath retirejs_output.json || true
-            ls -al
-            pwd
-            hostname
+      - run:
+          command: |
+	            npm install
+	            npm install retire
+	            retire --severity critical --outputformat json --outputpath retirejs_output.json
+          when: on_fail      # Even if the job fails, continue to the next jobs
       - store_artifacts:
-          path: retirejs_output.json
+          path: retirejs-output.json
           destination: retirejs-artifact
-          when: always 
+          when: always #Whatever the outcome of stage is save the artifact   
 
 workflows:
   version: 2

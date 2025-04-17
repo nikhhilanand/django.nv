@@ -5,7 +5,7 @@ jobs:
         steps:
           - checkout
           - run:
-          	  command: npm version
+              command: npm version
               when: on_fail      # Even if the job fails, continue to the next jobs
           - store_artifacts:
               path: retirejs-output.json

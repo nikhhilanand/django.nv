@@ -25,7 +25,11 @@ jobs:
       - run:  |
             npm install
             npm install retire
-            retire --severity critical --outputformat json --outputpath retire_output.json || true
+            retire --severity critical --outputformat json --outputpath retirejs_output.json || true
+      - store_artifacts:
+          path: retirejs-output.json
+          destination: retirejs-artifact
+          when: always     
   integration:
     docker:
       - image: python:3.6

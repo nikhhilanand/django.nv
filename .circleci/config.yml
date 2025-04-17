@@ -1,17 +1,13 @@
 jobs:
     oast:
-        docker:
-          - image: node:23.11
+        machine: true
         steps:
-          - checkout
-          - run : npm version
-          - run : npm install
-          - run : npm install -g retire@5.0.0
-          - run : retire --severity critical --outputformat json --outputpath retirejs_output.json || true
-          - store_artifacts:
-              path: retirejs_output.json
-              destination: retirejs-artifact
-              when: always #Whatever the outcome of stage is save the artifact  
+            - checkout
+            - run: docker run --rm -v $(pwd):/src -w /src hysnsec/dependency-check --scan /src --format json --out odc-output.json  || true
+            - store_artifacts:
+                path: odc-output.json
+                destination: odc-artifact
+                when: always
 
 workflows:
   version: 2

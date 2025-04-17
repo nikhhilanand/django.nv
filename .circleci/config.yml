@@ -18,20 +18,16 @@ jobs:
           python manage.py test taskManager
 
   oast:
-    machine: true
+    docker:
+      - image: cimg/node:latest
     steps:
       - checkout
       - run:
-          name: Install npm packages
-          command: npm install
-      - run:
-          name: Run RetireJS
           command: |
-            docker run --rm -v $(pwd):/src -w /src hysnsec/retire --outputformat json --outputpath retirejs-output.json --severity high || true
-      - store_artifacts:
-          path: retirejs-output.json
-          destination: retirejs-artifact
-          when: always #Whatever the outcome of stage is save the artifact
+            npm install
+            npm install retire
+            retire --severity critical --outputformat json --outputpath retire_output.json
+          when: on_fail      # Even if the job fails, continue to the next jobs
 
   integration:
     docker:

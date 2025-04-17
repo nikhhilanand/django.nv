@@ -4,8 +4,7 @@ jobs:
           - image: node:23.11
         steps:
           - checkout
-          - run:    |
-    	            npm install
+          - run : npm version
           - store_artifacts:
               path: retirejs_output.json
               destination: retirejs-artifact

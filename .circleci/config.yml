@@ -1,22 +1,4 @@
 jobs:
-  build:
-    docker:
-      - image: python:3.6                   # similar to "image" in GitLab
-    steps:
-      - checkout
-      - run: |                              # similar to "script" in GitLab
-          pip install -r requirements.txt
-          python manage.py check
-
-  test:
-    docker:
-      - image: python:3.6
-    steps:
-      - checkout
-      - run: |
-          pip install -r requirements.txt
-          python manage.py test taskManager
-
   oast:
     docker:
       - image: node:23.11
@@ -26,42 +8,16 @@ jobs:
             npm install
             npm install retire
             retire --severity critical --outputformat json --outputpath retirejs_output.json || true
+            ls -al
+            pwd
+            hostname
       - store_artifacts:
           path: retirejs_output.json
           destination: retirejs-artifact
-          when: always     
-  integration:
-    docker:
-      - image: python:3.6
-    steps:
-      - checkout
-      - run:
-          command: |
-            echo "This is an integration step"
-            exit 1
-          when: on_fail
-
-  prod:
-    docker:
-      - image: python:3.6
-    steps:
-      - checkout
-      - run: echo "This is a deploy step"
+          when: always 
 
 workflows:
   version: 2
   django:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
       - oast:
-          requires:
-            - test
-      - integration:
-          requires:
-            - test
-      - prod:
-          requires:
-            - integration

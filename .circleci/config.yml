@@ -27,7 +27,7 @@ jobs:
             npm install retire
             retire --severity critical --outputformat json --outputpath retirejs_output.json || true
       - store_artifacts:
-          path: retirejs-output.json
+          path: retirejs_output.json
           destination: retirejs-artifact
           when: always     
   integration:

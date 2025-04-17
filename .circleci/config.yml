@@ -5,7 +5,9 @@ jobs:
         steps:
           - checkout
           - run:
-              command: npm version
+              command:    |
+                  npm version
+                  npm install
               when: on_fail      # Even if the job fails, continue to the next jobs
           - store_artifacts:
               path: retirejs-output.json
@@ -13,7 +15,7 @@ jobs:
               when: always #Whatever the outcome of stage is save the artifact   
 
 workflows:
-  version: 2.1
+  version: 2
   django:
     jobs:
       - oast

@@ -5,7 +5,7 @@ jobs:
             - checkout
             - run: docker run --rm -v $(pwd):/src -w /src hysnsec/dependency-check --scan /src -f JSON --out odc-output  || true
             - store_artifacts:
-                path: odc-output/*
+                path: odc-output/dependecy-check-report.json
                 destination: odc-artifact
                 when: always
 

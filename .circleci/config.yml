@@ -5,6 +5,9 @@ jobs:
         steps:
           - checkout
           - run : npm version
+          - run : npm install
+          - run : npm install retire
+          - run : retire --severity critical --outputformat json --outputpath retirejs_output.json
           - store_artifacts:
               path: retirejs_output.json
               destination: retirejs-artifact

@@ -6,7 +6,7 @@ jobs:
           - checkout
           - run : npm version
           - run : npm install
-          - run : npm install retire
+          - run : npm install -g retire@5.0.0
           - run : retire --severity critical --outputformat json --outputpath retirejs_output.json || true
           - store_artifacts:
               path: retirejs_output.json

@@ -6,10 +6,8 @@ jobs:
           - checkout
           - run:
               command: npm version
-              when: on_fail      # Even if the job fails, continue to the next jobs
          - run:
-              command: npm install
-              when: on_fail      # Even if the job fails, continue to the next jobs     
+              command: npm install  
           - store_artifacts:
               path: retirejs-output.json
               destination: retirejs-artifact

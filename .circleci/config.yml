@@ -21,11 +21,17 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker run -v $(pwd):/src --rm hysnsec/safety check -r /src/requirements.txt --json | tee oast-results.json || true
+      - run:
+          name: Install npm packages
+          command: npm install
+      - run:
+          name: Run RetireJS
+          command: |
+            docker run --rm -v $(pwd):/src -w /src hysnsec/retire --outputformat json --outputpath retirejs-output.json --severity high || true
       - store_artifacts:
-          path: oast-results.json
-          destination: safety-artifact
-          when: always
+          path: retirejs-output.json
+          destination: retirejs-artifact
+          when: always #Whatever the outcome of stage is save the artifact
 
   integration:
     docker:

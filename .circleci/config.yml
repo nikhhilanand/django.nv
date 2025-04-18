@@ -23,4 +23,4 @@ workflows:
   version: 2
   django:
     jobs:
-      - oast
+      - oast-snyk

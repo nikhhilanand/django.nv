@@ -1,13 +1,23 @@
 jobs:
-    oast:
-        machine: true
-        steps:
-            - checkout
-            - run: docker run --rm -v $(pwd):/src -w /src hysnsec/dependency-check --scan . -f JSON || true
-            - store_artifacts:
-                path: dependecy-check-report.json
-                destination: odc-artifact
-                when: always
+    oast-snyk:
+    docker:
+      - image: node:alpine3.21
+    steps:
+      - checkout
+
+      - run: 
+          command: |
+            wget -O snyk https://github.com/snyk/cli/releases/download/v1.1296.2/snyk-alpine
+            chmod +x snyk
+            mv snyk /usr/local/bin/
+            npm install
+            snyk auth $SNYK_TOKEN
+            snyk test --json > snyk-results.json || true
+
+      - store_artifacts:
+          path: snyk-results.json
+          destination: snyk-artifact
+          when: always
 
 workflows:
   version: 2

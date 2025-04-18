@@ -8,8 +8,7 @@ jobs:
           - run: 
               command: |
                 npm install
-    			npm audit --json > npm_audit-results.json || true
-    
+                npm audit --json > npm_audit-results.json || true    
           - store_artifacts:
               path: npm_audit-results.json
               destination: npm-audit-artifact

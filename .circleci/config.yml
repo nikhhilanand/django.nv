@@ -1,5 +1,6 @@
 jobs:
     secret-scanning:
+        machine: true
         steps:
           - checkout
     

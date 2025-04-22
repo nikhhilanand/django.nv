@@ -1,21 +1,16 @@
 jobs:
-    oast:
-        docker:
-          - image: node:alpine3.21
+    secret-scanning:
         steps:
           - checkout
     
-          - run: 
-              command: |
-                npm install
-                npm audit --json > npm_audit-results.json || true    
+          - run: docker run --rm -v $(pwd):/src hysnsec/trufflehog filesystem /src --json > trufflehog-output.json   
           - store_artifacts:
-              path: npm_audit-results.json
-              destination: npm-audit-artifact
+              path: trufflehog-output.json
+              destination: trufflehog-artifact
               when: always
 
 workflows:
   version: 2
   django:
     jobs:
-      - oast
+      - secret-scanning

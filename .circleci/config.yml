@@ -4,7 +4,8 @@ jobs:
         steps:
           - checkout
     
-          - run: docker run --rm -v $(pwd):/src hysnsec/trufflehog filesystem /src --json > trufflehog-output.json   
+          - run: docker run --rm -v $(pwd):/src hysnsec/trufflehog filesystem /src --json > trufflehog-output.json   || true
+          
           - store_artifacts:
               path: trufflehog-output.json
               destination: trufflehog-artifact

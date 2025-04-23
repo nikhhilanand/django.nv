@@ -1,13 +1,13 @@
 jobs:
-    secret-scanning:
+    sast-bandit:
         machine: true
         steps:
           - checkout
     
-          - run: docker run --rm -v $(pwd):/src hysnsec/trufflehog filesystem /src --json > trufflehog-output.json   || true
+          - run: docker run --rm -v $(pwd):/src hysnsec/bandit -r /src -f json -o /src/bandit-output.json || true #Allow failure stage
           
           - store_artifacts:
-              path: trufflehog-output.json
+              path: bandit-output.json
               destination: trufflehog-artifact
               when: always
 
@@ -15,4 +15,4 @@ workflows:
   version: 2
   django:
     jobs:
-      - secret-scanning
+      - sast-bandit

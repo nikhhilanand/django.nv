@@ -4,9 +4,9 @@ jobs:
         steps:
           - checkout
     
-          - run: docker run --rm -v $(pwd):/src hysnsec/bandit -r /src -f json -o /src/bandit-output.json || true #Allow failure stage
+          - run: docker run --rm -v ${PWD}:/src semgrep/semgrep semgrep --config auto --output semgrep-output.json --json || true #Allow failure stage
           
-          - store_artifacts:
+          - store_artifacts: #Store artifacts
               path: bandit-output.json
               destination: trufflehog-artifact
               when: always

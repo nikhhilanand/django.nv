@@ -15,4 +15,4 @@ workflows:
   version: 2
   django:
     jobs:
-      - sast-bandit
+      - sast-semgrep

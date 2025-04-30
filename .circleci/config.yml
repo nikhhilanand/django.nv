@@ -1,5 +1,5 @@
 jobs:
-    zap_baseline:
+  zap_baseline:
     machine: true
     steps:
       - checkout
@@ -11,7 +11,6 @@ jobs:
       - store_artifacts:
           path: zap-output.json
           destination: zap-artifact
-          when: always
 
 workflows:
   version: 2

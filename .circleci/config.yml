@@ -16,6 +16,6 @@ workflows:
   version: 2
   django:
     jobs:
-      - sast-semgrep
+      - zap-baseline
 
 

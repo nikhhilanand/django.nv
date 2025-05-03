@@ -1,21 +1,20 @@
 jobs:
-  zap_baseline:
+    nuclei:
       machine: true
       steps:
         - checkout
   
         - run: |
-            docker pull softwaresecurityproject/zap-stable:2.14.0
-            docker run --user root --rm -v $(pwd):/zap/wrk:rw -w /zap softwaresecurityproject/zap-stable:2.14.0 zap-baseline.py -t ${PROD_URL} -J zap-output.json || true
+            docker run --user $(id -u):$(id -g) -w /nuclei -v $(pwd):/nuclei:rw --rm projectdiscovery/nuclei:v2.9.6 -u https://prod-tv39jhe7.lab.practical-devsecops.training -j -o nuclei-output.json || true
   
         - store_artifacts:
-            path: zap-output.json
-            destination: zap-artifact
+            path: nuclei-output.json
+            destination: nuclei-artifact
 
 workflows:
   version: 2
   django:
     jobs:
-      - zap_baseline
+      - nuclei
 
 

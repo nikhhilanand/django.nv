@@ -5,8 +5,8 @@ jobs:
         - checkout
   
         - run: |
-            docker run -w /nuclei -v $(pwd):/nuclei:rw --rm projectdiscovery/nuclei:v3.4.2 -u https://prod-tv39jhe7.lab.practical-devsecops.training -j -o nuclei-output.json
             echo $PROD_URL
+            #docker run -w /nuclei -v $(pwd):/nuclei:rw --rm projectdiscovery/nuclei:v3.4.2 -u https://prod-tv39jhe7.lab.practical-devsecops.training -j -o nuclei-output.json
   
         - store_artifacts:
             path: nuclei-output.json
